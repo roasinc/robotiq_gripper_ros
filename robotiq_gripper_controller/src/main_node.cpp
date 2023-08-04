@@ -42,7 +42,7 @@ class RobotiqGripperController
 
             sub_gripper_command_ = nh_.subscribe("gripper_command", 10, &RobotiqGripperController::callback_gripper_command, this);
             pub_gripper_status_ = nh_.advertise<robotiq_gripper_msgs::GripperStatus>("gripper_status", 10);
-            pub_joint_states_ = nh_.advertise<sensor_msgs::JointState>("joint_state", 10);
+            pub_joint_states_ = nh_.advertise<sensor_msgs::JointState>("joint_states", 10);
 
             timer_pub_status_ = nh_.createTimer(ros::Duration(1/rate), &RobotiqGripperController::callback_timer_pub_status, this);
             ROS_INFO("[%s] initialized successfully.", ros::this_node::getName().c_str());
@@ -82,7 +82,7 @@ class RobotiqGripperController
 
             auto js_msg = sensor_msgs::JointState();
             js_msg.header.stamp = ros::Time::now();
-            js_msg.name.push_back("gripper_finger_joint");
+            js_msg.name.push_back("finger_joint");
             js_msg.position.push_back(msg.g_po / 255.0);
             js_msg.velocity.push_back(0.0);
             js_msg.effort.push_back(msg.g_cu / 255.0);
